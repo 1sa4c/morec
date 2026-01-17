@@ -9,7 +9,7 @@
 struct MorseCtx {
     int wpm;
     int frequency;
-    int sample_rate;
+    int sampling_rate;
     int bit_depth;
     float volume;
     int audio_format;
@@ -62,13 +62,13 @@ static int get_char_index(char c);
 static int generate_tone(MorseCtx *ctx, FILE *fp, int num_samples);
 static int generate_silence(FILE *fp, int num_samples);
 
-MorseCtx* morse_init(int wpm, int frequency, int sample_rate, int bit_depth, float volume){
+MorseCtx* morse_init(int wpm, int frequency, int sampling_rate, int bit_depth, float volume){
     MorseCtx *ctx = malloc(sizeof(MorseCtx));
     if (!ctx) return NULL;
 
     ctx->wpm = wpm;
     ctx->frequency = frequency;
-    ctx->sample_rate = sample_rate;
+    ctx->sampling_rate = sampling_rate;
     ctx->bit_depth = bit_depth;
     ctx->volume = volume;
     
@@ -76,7 +76,7 @@ MorseCtx* morse_init(int wpm, int frequency, int sample_rate, int bit_depth, flo
     ctx->max_amplitude = (int32_t)(volume * (((1 << (bit_depth - 1)) - 1)));
     
     double dot_duration = 1.2 / wpm;
-    ctx->samples_per_dot = (int)(dot_duration * sample_rate);
+    ctx->samples_per_dot = (int)(dot_duration * sampling_rate);
 
     return ctx;
 }
@@ -141,7 +141,7 @@ static int get_char_index(char c) {
 
 static int generate_tone(MorseCtx *ctx, FILE *fp, int num_samples){
     int16_t sample_val;
-    double phase_increment = 2.0 * M_PI * ctx->frequency / ctx->sample_rate;
+    double phase_increment = 2.0 * M_PI * ctx->frequency / ctx->sampling_rate;
 
 
     for (int i = 0; i < num_samples; i++) {

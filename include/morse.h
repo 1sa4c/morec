@@ -7,7 +7,7 @@
 typedef struct MorseCtx MorseCtx;
 
 // Constructor
-MorseCtx* morse_init(int wpm, int frequency, int sample_rate, int bit_depth, float volume);
+MorseCtx* morse_init(int wpm, int frequency, int sampling_rate, int bit_depth, float volume);
 
 // Destructor
 void morse_free(MorseCtx *ctx);
